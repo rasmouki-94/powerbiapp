@@ -61,20 +61,20 @@ export const STATUT_LABELS: Record<string, string> = {
 };
 
 export const STATUT_COLORS: Record<string, string> = {
-  demande_envoyee: 'bg-gray-100 text-gray-800',
-  connecte: 'bg-blue-100 text-blue-800',
-  dm_remerciement: 'bg-blue-200 text-blue-900',
-  message_j3: 'bg-indigo-100 text-indigo-800',
-  en_discussion: 'bg-purple-100 text-purple-800',
-  qualifie_chaud: 'bg-red-100 text-red-800',
-  qualifie_tiede: 'bg-orange-100 text-orange-800',
-  qualifie_froid: 'bg-cyan-100 text-cyan-800',
-  visio_decouverte_programmee: 'bg-yellow-100 text-yellow-800',
-  visio_decouverte_faite: 'bg-yellow-200 text-yellow-900',
-  visio_closing_programmee: 'bg-emerald-100 text-emerald-800',
-  close_gagne: 'bg-green-100 text-green-800',
-  perdu: 'bg-red-200 text-red-900',
-  pas_interesse: 'bg-gray-200 text-gray-600',
+  demande_envoyee: 'bg-slate-500/20 text-slate-200 border border-slate-500/30',
+  connecte: 'bg-sky-500/20 text-sky-200 border border-sky-500/30',
+  dm_remerciement: 'bg-sky-400/20 text-sky-100 border border-sky-400/30',
+  message_j3: 'bg-indigo-500/20 text-indigo-200 border border-indigo-500/30',
+  en_discussion: 'bg-purple-500/20 text-purple-200 border border-purple-500/30',
+  qualifie_chaud: 'bg-rose-500/20 text-rose-200 border border-rose-500/30',
+  qualifie_tiede: 'bg-amber-500/20 text-amber-200 border border-amber-500/30',
+  qualifie_froid: 'bg-cyan-500/20 text-cyan-200 border border-cyan-500/30',
+  visio_decouverte_programmee: 'bg-yellow-500/20 text-yellow-200 border border-yellow-500/30',
+  visio_decouverte_faite: 'bg-yellow-400/20 text-yellow-100 border border-yellow-400/30',
+  visio_closing_programmee: 'bg-emerald-500/20 text-emerald-200 border border-emerald-500/30',
+  close_gagne: 'bg-green-500/20 text-green-200 border border-green-500/30',
+  perdu: 'bg-red-500/20 text-red-200 border border-red-500/30',
+  pas_interesse: 'bg-slate-600/20 text-slate-300 border border-slate-600/30',
 };
 
 export const TEMPLATE_TYPES: Record<string, string> = {

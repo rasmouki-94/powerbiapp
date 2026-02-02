@@ -25,30 +25,30 @@ function ProspectForm({ avatars, initial, onSave, onCancel }: {
   const set = (k: string, v: any) => setForm(f => ({ ...f, [k]: v }));
 
   return (
-    <div className="bg-white border rounded-lg p-4 mb-4">
+    <div className="bg-[var(--chatgpt-surface)] border border-[var(--chatgpt-border)] rounded-lg p-4 mb-4">
       <div className="grid grid-cols-2 gap-3">
-        <input placeholder="Prénom *" className="border rounded px-3 py-2 text-sm" value={form.prenom} onChange={e => set('prenom', e.target.value)} />
-        <input placeholder="Nom *" className="border rounded px-3 py-2 text-sm" value={form.nom} onChange={e => set('nom', e.target.value)} />
-        <input placeholder="Entreprise" className="border rounded px-3 py-2 text-sm" value={form.entreprise} onChange={e => set('entreprise', e.target.value)} />
-        <input placeholder="Poste" className="border rounded px-3 py-2 text-sm" value={form.poste} onChange={e => set('poste', e.target.value)} />
-        <input placeholder="URL LinkedIn" className="border rounded px-3 py-2 text-sm col-span-2" value={form.url_linkedin} onChange={e => set('url_linkedin', e.target.value)} />
-        <select className="border rounded px-3 py-2 text-sm" value={form.avatar_id} onChange={e => set('avatar_id', e.target.value)}>
+        <input placeholder="Prénom *" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" value={form.prenom} onChange={e => set('prenom', e.target.value)} />
+        <input placeholder="Nom *" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" value={form.nom} onChange={e => set('nom', e.target.value)} />
+        <input placeholder="Entreprise" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" value={form.entreprise} onChange={e => set('entreprise', e.target.value)} />
+        <input placeholder="Poste" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" value={form.poste} onChange={e => set('poste', e.target.value)} />
+        <input placeholder="URL LinkedIn" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm col-span-2 text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" value={form.url_linkedin} onChange={e => set('url_linkedin', e.target.value)} />
+        <select className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm text-[var(--chatgpt-text)]" value={form.avatar_id} onChange={e => set('avatar_id', e.target.value)}>
           <option value="">-- Avatar --</option>
           {avatars.map(a => <option key={a.id} value={a.id}>{a.nom}</option>)}
         </select>
-        <select className="border rounded px-3 py-2 text-sm" value={form.statut} onChange={e => set('statut', e.target.value)}>
+        <select className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm text-[var(--chatgpt-text)]" value={form.statut} onChange={e => set('statut', e.target.value)}>
           {PIPELINE_ORDER.map(s => <option key={s} value={s}>{STATUT_LABELS[s]}</option>)}
         </select>
-        <input type="date" className="border rounded px-3 py-2 text-sm" value={form.date_connexion} onChange={e => set('date_connexion', e.target.value)} placeholder="Date connexion" />
-        <textarea placeholder="Notes" className="border rounded px-3 py-2 text-sm col-span-2" rows={2} value={form.notes} onChange={e => set('notes', e.target.value)} />
+        <input type="date" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm text-[var(--chatgpt-text)]" value={form.date_connexion} onChange={e => set('date_connexion', e.target.value)} placeholder="Date connexion" />
+        <textarea placeholder="Notes" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm col-span-2 text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" rows={2} value={form.notes} onChange={e => set('notes', e.target.value)} />
       </div>
       <div className="flex gap-2 mt-3">
         <button onClick={() => onSave({ ...form, avatar_id: form.avatar_id ? Number(form.avatar_id) : null })}
           disabled={!form.prenom || !form.nom}
-          className="px-4 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50">
+          className="px-4 py-2 bg-[var(--chatgpt-accent)] text-white rounded text-sm hover:bg-[var(--chatgpt-accent-hover)] disabled:opacity-50">
           Enregistrer
         </button>
-        <button onClick={onCancel} className="px-4 py-2 border rounded text-sm hover:bg-gray-50">Annuler</button>
+        <button onClick={onCancel} className="px-4 py-2 border border-[var(--chatgpt-border)] rounded text-sm hover:bg-[var(--chatgpt-surface-elevated)]">Annuler</button>
       </div>
     </div>
   );
@@ -99,11 +99,11 @@ export default function Prospects() {
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Prospects ({prospects.length})</h1>
         <div className="flex gap-2">
-          <label className="flex items-center gap-1 px-3 py-2 border rounded text-sm cursor-pointer hover:bg-gray-50">
+          <label className="flex items-center gap-1 px-3 py-2 border border-[var(--chatgpt-border)] rounded text-sm cursor-pointer hover:bg-[var(--chatgpt-surface-elevated)]">
             <Upload size={16} /> Import CSV
             <input type="file" accept=".csv" className="hidden" onChange={handleImport} />
           </label>
-          <button onClick={() => setShowForm(!showForm)} className="flex items-center gap-1 px-3 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">
+          <button onClick={() => setShowForm(!showForm)} className="flex items-center gap-1 px-3 py-2 bg-[var(--chatgpt-accent)] text-white rounded text-sm hover:bg-[var(--chatgpt-accent-hover)]">
             <Plus size={16} /> Ajouter
           </button>
         </div>
@@ -114,24 +114,24 @@ export default function Prospects() {
       {/* Filters */}
       <div className="flex gap-2 mb-4">
         <div className="relative flex-1">
-          <Search size={16} className="absolute left-3 top-2.5 text-gray-400" />
-          <input placeholder="Rechercher..." className="w-full border rounded pl-9 pr-3 py-2 text-sm"
+          <Search size={16} className="absolute left-3 top-2.5 text-[var(--chatgpt-subtle)]" />
+          <input placeholder="Rechercher..." className="w-full border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded pl-9 pr-3 py-2 text-sm text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]"
             value={search} onChange={e => setSearch(e.target.value)} />
         </div>
-        <select className="border rounded px-3 py-2 text-sm" value={filterStatut} onChange={e => setFilterStatut(e.target.value)}>
+        <select className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm text-[var(--chatgpt-text)]" value={filterStatut} onChange={e => setFilterStatut(e.target.value)}>
           <option value="">Tous les statuts</option>
           {PIPELINE_ORDER.map(s => <option key={s} value={s}>{STATUT_LABELS[s]}</option>)}
         </select>
-        <select className="border rounded px-3 py-2 text-sm" value={filterAvatar} onChange={e => setFilterAvatar(e.target.value)}>
+        <select className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm text-[var(--chatgpt-text)]" value={filterAvatar} onChange={e => setFilterAvatar(e.target.value)}>
           <option value="">Tous les avatars</option>
           {avatars.map(a => <option key={a.id} value={a.id}>{a.nom}</option>)}
         </select>
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg border overflow-hidden">
+      <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50">
+          <thead className="bg-[var(--chatgpt-surface-elevated)]">
             <tr>
               <th className="text-left px-4 py-3 font-medium">Nom</th>
               <th className="text-left px-4 py-3 font-medium">Entreprise</th>
@@ -143,21 +143,21 @@ export default function Prospects() {
           </thead>
           <tbody>
             {filtered.map(p => (
-              <tr key={p.id} className="border-t hover:bg-gray-50 cursor-pointer" onClick={() => navigate(`/prospects/${p.id}`)}>
+              <tr key={p.id} className="border-t border-[var(--chatgpt-border)] hover:bg-[var(--chatgpt-surface-elevated)] cursor-pointer" onClick={() => navigate(`/prospects/${p.id}`)}>
                 <td className="px-4 py-3 font-medium">{p.prenom} {p.nom}</td>
-                <td className="px-4 py-3 text-gray-600">{p.entreprise}</td>
-                <td className="px-4 py-3 text-gray-600">{p.poste}</td>
-                <td className="px-4 py-3 text-gray-500">{p.avatar_nom || '-'}</td>
+                <td className="px-4 py-3 text-[var(--chatgpt-muted)]">{p.entreprise}</td>
+                <td className="px-4 py-3 text-[var(--chatgpt-muted)]">{p.poste}</td>
+                <td className="px-4 py-3 text-[var(--chatgpt-muted)]">{p.avatar_nom || '-'}</td>
                 <td className="px-4 py-3">
                   <span className={`px-2 py-0.5 rounded text-xs font-medium ${STATUT_COLORS[p.statut]}`}>
                     {STATUT_LABELS[p.statut]}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-gray-500">{p.date_connexion?.split('T')[0] || '-'}</td>
+                <td className="px-4 py-3 text-[var(--chatgpt-muted)]">{p.date_connexion?.split('T')[0] || '-'}</td>
               </tr>
             ))}
             {filtered.length === 0 && (
-              <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400">Aucun prospect trouvé</td></tr>
+              <tr><td colSpan={6} className="px-4 py-8 text-center text-[var(--chatgpt-subtle)]">Aucun prospect trouvé</td></tr>
             )}
           </tbody>
         </table>

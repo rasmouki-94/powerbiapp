@@ -41,19 +41,19 @@ function ActionCard({ prospect, actionType, nextStatut, templates, onDone }: Act
   };
 
   return (
-    <div className="bg-white rounded-lg border p-4 shadow-sm">
+    <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] p-4 shadow-sm">
       <div className="flex items-start justify-between mb-3">
         <div>
           <div className="flex items-center gap-2">
             <span className="font-semibold">{prospect.prenom} {prospect.nom}</span>
             {prospect.url_linkedin && (
-              <a href={prospect.url_linkedin} target="_blank" rel="noreferrer" className="text-blue-500 hover:text-blue-700">
+              <a href={prospect.url_linkedin} target="_blank" rel="noreferrer" className="text-[var(--chatgpt-accent)] hover:text-[var(--chatgpt-accent-hover)]">
                 <ExternalLink size={14} />
               </a>
             )}
           </div>
-          <p className="text-sm text-gray-500">{prospect.poste} - {prospect.entreprise}</p>
-          <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded bg-amber-100 text-amber-800 font-medium">
+          <p className="text-sm text-[var(--chatgpt-muted)]">{prospect.poste} - {prospect.entreprise}</p>
+          <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded bg-amber-500/20 text-amber-200 font-medium">
             {actionType}
           </span>
         </div>
@@ -61,7 +61,7 @@ function ActionCard({ prospect, actionType, nextStatut, templates, onDone }: Act
 
       {templates.length > 1 && (
         <select
-          className="w-full mb-2 border rounded px-2 py-1 text-sm"
+          className="w-full mb-2 border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-2 py-1 text-sm text-[var(--chatgpt-text)]"
           value={selectedTemplate?.id || ''}
           onChange={e => setSelectedTemplate(templates.find(t => t.id === Number(e.target.value)) || null)}
         >
@@ -70,17 +70,17 @@ function ActionCard({ prospect, actionType, nextStatut, templates, onDone }: Act
       )}
 
       {message && (
-        <div className="bg-gray-50 rounded p-3 text-sm mb-3 whitespace-pre-wrap">{message}</div>
+        <div className="bg-[var(--chatgpt-surface-elevated)] rounded p-3 text-sm mb-3 whitespace-pre-wrap border border-[var(--chatgpt-border)]">{message}</div>
       )}
 
       <div className="flex gap-2">
         {message && (
-          <button onClick={copyMessage} className="flex items-center gap-1 px-3 py-1.5 text-sm border rounded hover:bg-gray-50">
-            {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
+          <button onClick={copyMessage} className="flex items-center gap-1 px-3 py-1.5 text-sm border border-[var(--chatgpt-border)] rounded hover:bg-[var(--chatgpt-surface-elevated)]">
+            {copied ? <Check size={14} className="text-[var(--chatgpt-accent)]" /> : <Copy size={14} />}
             {copied ? 'Copié !' : 'Copier le message'}
           </button>
         )}
-        <button onClick={markDone} className="flex items-center gap-1 px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700">
+        <button onClick={markDone} className="flex items-center gap-1 px-3 py-1.5 text-sm bg-[var(--chatgpt-accent)] text-white rounded hover:bg-[var(--chatgpt-accent-hover)]">
           <Check size={14} /> Marquer comme fait
         </button>
       </div>
@@ -99,7 +99,7 @@ export default function ActionsDuJour() {
 
   useEffect(() => { load(); }, []);
 
-  if (!data) return <div className="p-8 text-gray-500">Chargement...</div>;
+  if (!data) return <div className="p-8 text-[var(--chatgpt-muted)]">Chargement...</div>;
 
   const remerciementTemplates = templates.filter(t => t.type === 'remerciement');
   const j3Templates = templates.filter(t => t.type === 'j3');
@@ -110,10 +110,10 @@ export default function ActionsDuJour() {
   return (
     <div className="p-6 max-w-4xl">
       <h1 className="text-2xl font-bold mb-1">Actions du jour</h1>
-      <p className="text-gray-500 mb-6">{total} action{total > 1 ? 's' : ''} à réaliser</p>
+      <p className="text-[var(--chatgpt-muted)] mb-6">{total} action{total > 1 ? 's' : ''} à réaliser</p>
 
       {total === 0 && (
-        <div className="bg-green-50 text-green-700 rounded-lg p-6 text-center">
+        <div className="bg-emerald-500/20 text-emerald-200 rounded-lg p-6 text-center border border-emerald-500/30">
           Aucune action en attente. Tout est à jour !
         </div>
       )}
@@ -121,7 +121,7 @@ export default function ActionsDuJour() {
       {data.dmRemerciement.length > 0 && (
         <section className="mb-8">
           <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-            <span className="w-2 h-2 bg-blue-500 rounded-full" />
+            <span className="w-2 h-2 bg-[var(--chatgpt-accent)] rounded-full" />
             DM de remerciement à envoyer ({data.dmRemerciement.length})
           </h2>
           <div className="space-y-3">
@@ -136,7 +136,7 @@ export default function ActionsDuJour() {
       {data.messageJ3.length > 0 && (
         <section className="mb-8">
           <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-            <span className="w-2 h-2 bg-indigo-500 rounded-full" />
+            <span className="w-2 h-2 bg-indigo-400 rounded-full" />
             Messages J+3 à envoyer ({data.messageJ3.length})
           </h2>
           <div className="space-y-3">
@@ -151,7 +151,7 @@ export default function ActionsDuJour() {
       {data.relances.length > 0 && (
         <section className="mb-8">
           <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-            <span className="w-2 h-2 bg-orange-500 rounded-full" />
+            <span className="w-2 h-2 bg-amber-400 rounded-full" />
             Relances en retard ({data.relances.length})
           </h2>
           <div className="space-y-3">

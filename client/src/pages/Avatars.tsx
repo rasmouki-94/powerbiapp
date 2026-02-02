@@ -27,20 +27,20 @@ function AvatarForm({ initial, onSave, onCancel }: {
   };
 
   return (
-    <div className="bg-white border rounded-lg p-4 mb-4">
+    <div className="bg-[var(--chatgpt-surface)] border border-[var(--chatgpt-border)] rounded-lg p-4 mb-4">
       <div className="grid grid-cols-2 gap-3">
-        <input placeholder="Nom de l'avatar *" className="border rounded px-3 py-2 text-sm col-span-2" value={form.nom} onChange={e => set('nom', e.target.value)} />
-        <textarea placeholder="Description du profil type" className="border rounded px-3 py-2 text-sm col-span-2" rows={2} value={form.description} onChange={e => set('description', e.target.value)} />
-        <input placeholder="Secteurs ciblés" className="border rounded px-3 py-2 text-sm" value={form.secteurs} onChange={e => set('secteurs', e.target.value)} />
-        <input placeholder="Taille d'entreprise" className="border rounded px-3 py-2 text-sm" value={form.taille_entreprise} onChange={e => set('taille_entreprise', e.target.value)} />
-        <textarea placeholder="Douleurs typiques (une par ligne)" className="border rounded px-3 py-2 text-sm col-span-2" rows={3} value={form.douleurs} onChange={e => set('douleurs', e.target.value)} />
-        <input placeholder="Mots-clés LinkedIn" className="border rounded px-3 py-2 text-sm col-span-2" value={form.mots_cles_linkedin} onChange={e => set('mots_cles_linkedin', e.target.value)} />
+        <input placeholder="Nom de l'avatar *" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm col-span-2 text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" value={form.nom} onChange={e => set('nom', e.target.value)} />
+        <textarea placeholder="Description du profil type" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm col-span-2 text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" rows={2} value={form.description} onChange={e => set('description', e.target.value)} />
+        <input placeholder="Secteurs ciblés" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" value={form.secteurs} onChange={e => set('secteurs', e.target.value)} />
+        <input placeholder="Taille d'entreprise" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" value={form.taille_entreprise} onChange={e => set('taille_entreprise', e.target.value)} />
+        <textarea placeholder="Douleurs typiques (une par ligne)" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm col-span-2 text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" rows={3} value={form.douleurs} onChange={e => set('douleurs', e.target.value)} />
+        <input placeholder="Mots-clés LinkedIn" className="border border-[var(--chatgpt-border)] bg-[var(--chatgpt-surface-elevated)] rounded px-3 py-2 text-sm col-span-2 text-[var(--chatgpt-text)] placeholder:text-[var(--chatgpt-subtle)]" value={form.mots_cles_linkedin} onChange={e => set('mots_cles_linkedin', e.target.value)} />
       </div>
       <div className="flex gap-2 mt-3">
-        <button onClick={submit} disabled={!form.nom} className="px-4 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50">
+        <button onClick={submit} disabled={!form.nom} className="px-4 py-2 bg-[var(--chatgpt-accent)] text-white rounded text-sm hover:bg-[var(--chatgpt-accent-hover)] disabled:opacity-50">
           Enregistrer
         </button>
-        <button onClick={onCancel} className="px-4 py-2 border rounded text-sm hover:bg-gray-50">Annuler</button>
+        <button onClick={onCancel} className="px-4 py-2 border border-[var(--chatgpt-border)] rounded text-sm hover:bg-[var(--chatgpt-surface-elevated)]">Annuler</button>
       </div>
     </div>
   );
@@ -77,7 +77,7 @@ export default function Avatars() {
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Avatars ({avatars.length})</h1>
         <button onClick={() => { setShowForm(!showForm); setEditingId(null); }}
-          className="flex items-center gap-1 px-3 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">
+          className="flex items-center gap-1 px-3 py-2 bg-[var(--chatgpt-accent)] text-white rounded text-sm hover:bg-[var(--chatgpt-accent-hover)]">
           <Plus size={16} /> Nouvel avatar
         </button>
       </div>
@@ -89,12 +89,12 @@ export default function Avatars() {
           editingId === a.id ? (
             <AvatarForm key={a.id} initial={a} onSave={handleUpdate} onCancel={() => setEditingId(null)} />
           ) : (
-            <div key={a.id} className="bg-white border rounded-lg p-4">
+            <div key={a.id} className="bg-[var(--chatgpt-surface)] border border-[var(--chatgpt-border)] rounded-lg p-4">
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="font-semibold text-lg">{a.nom}</h3>
-                  {a.description && <p className="text-sm text-gray-600 mt-1">{a.description}</p>}
-                  <div className="flex flex-wrap gap-x-6 gap-y-1 mt-2 text-sm text-gray-500">
+                  {a.description && <p className="text-sm text-[var(--chatgpt-muted)] mt-1">{a.description}</p>}
+                  <div className="flex flex-wrap gap-x-6 gap-y-1 mt-2 text-sm text-[var(--chatgpt-muted)]">
                     {a.secteurs && <span>Secteurs: {a.secteurs}</span>}
                     {a.taille_entreprise && <span>Taille: {a.taille_entreprise}</span>}
                     {a.mots_cles_linkedin && <span>Mots-clés: {a.mots_cles_linkedin}</span>}
@@ -104,8 +104,8 @@ export default function Avatars() {
                     try { douleurs = JSON.parse(a.douleurs); } catch {}
                     return douleurs.length > 0 && (
                       <div className="mt-2">
-                        <span className="text-xs font-medium text-gray-500">Douleurs:</span>
-                        <ul className="list-disc list-inside text-sm text-gray-600 mt-1">
+                        <span className="text-xs font-medium text-[var(--chatgpt-subtle)]">Douleurs:</span>
+                        <ul className="list-disc list-inside text-sm text-[var(--chatgpt-muted)] mt-1">
                           {douleurs.map((d, i) => <li key={i}>{d}</li>)}
                         </ul>
                       </div>
@@ -113,15 +113,15 @@ export default function Avatars() {
                   })()}
                 </div>
                 <div className="flex gap-1">
-                  <button onClick={() => { setEditingId(a.id); setShowForm(false); }} className="p-1.5 hover:bg-gray-100 rounded"><Pencil size={16} className="text-gray-500" /></button>
-                  <button onClick={() => handleDelete(a.id)} className="p-1.5 hover:bg-red-50 rounded"><Trash2 size={16} className="text-red-400" /></button>
+                  <button onClick={() => { setEditingId(a.id); setShowForm(false); }} className="p-1.5 hover:bg-[var(--chatgpt-surface-elevated)] rounded"><Pencil size={16} className="text-[var(--chatgpt-muted)]" /></button>
+                  <button onClick={() => handleDelete(a.id)} className="p-1.5 hover:bg-red-500/10 rounded"><Trash2 size={16} className="text-red-300" /></button>
                 </div>
               </div>
             </div>
           )
         ))}
         {avatars.length === 0 && !showForm && (
-          <div className="text-center py-12 text-gray-400">Aucun avatar. Créez votre premier avatar client.</div>
+          <div className="text-center py-12 text-[var(--chatgpt-subtle)]">Aucun avatar. Créez votre premier avatar client.</div>
         )}
       </div>
     </div>

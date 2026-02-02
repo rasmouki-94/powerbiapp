@@ -3,14 +3,14 @@ import { api } from '../api';
 import { STATUT_LABELS, PIPELINE_ORDER } from '../types';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';
 
-const COLORS = ['#3b82f6', '#8b5cf6', '#ef4444', '#f59e0b', '#10b981', '#06b6d4', '#ec4899', '#6366f1', '#14b8a6', '#f97316', '#84cc16', '#22d3ee', '#a855f7', '#64748b'];
+const COLORS = ['#10a37f', '#8b5cf6', '#f97316', '#f59e0b', '#22d3ee', '#ec4899', '#3b82f6', '#84cc16', '#14b8a6', '#f97316', '#a855f7', '#22d3ee', '#a855f7', '#64748b'];
 
 export default function Statistiques() {
   const [stats, setStats] = useState<any>(null);
 
   useEffect(() => { api.getStats().then(setStats); }, []);
 
-  if (!stats) return <div className="p-8 text-gray-500">Chargement...</div>;
+  if (!stats) return <div className="p-8 text-[var(--chatgpt-muted)]">Chargement...</div>;
 
   const { countsByStatus, countsByAvatar, weeklyStats, avgTimeInStatus } = stats;
 
@@ -66,26 +66,26 @@ export default function Statistiques() {
     <div className="p-6 max-w-6xl">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Statistiques</h1>
-        <a href="/api/prospects/export/csv" className="px-3 py-2 border rounded text-sm hover:bg-gray-50">Export CSV</a>
+        <a href="/api/prospects/export/csv" className="px-3 py-2 border border-[var(--chatgpt-border)] rounded text-sm hover:bg-[var(--chatgpt-surface-elevated)]">Export CSV</a>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm text-gray-500">Total prospects</div>
+        <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] p-4">
+          <div className="text-sm text-[var(--chatgpt-muted)]">Total prospects</div>
           <div className="text-3xl font-bold">{totalProspects}</div>
         </div>
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm text-gray-500">Closés (gagnés)</div>
-          <div className="text-3xl font-bold text-green-600">{totalGagnes}</div>
+        <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] p-4">
+          <div className="text-sm text-[var(--chatgpt-muted)]">Closés (gagnés)</div>
+          <div className="text-3xl font-bold text-emerald-300">{totalGagnes}</div>
         </div>
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm text-gray-500">Taux de closing global</div>
+        <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] p-4">
+          <div className="text-sm text-[var(--chatgpt-muted)]">Taux de closing global</div>
           <div className="text-3xl font-bold">{totalProspects > 0 ? Math.round((totalGagnes / totalProspects) * 100) : 0}%</div>
         </div>
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm text-gray-500">En cours</div>
-          <div className="text-3xl font-bold text-blue-600">
+        <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] p-4">
+          <div className="text-sm text-[var(--chatgpt-muted)]">En cours</div>
+          <div className="text-3xl font-bold text-[var(--chatgpt-accent)]">
             {totalProspects - totalGagnes - (countsByStatus.find((c: any) => c.statut === 'perdu')?.count || 0) - (countsByStatus.find((c: any) => c.statut === 'pas_interesse')?.count || 0)}
           </div>
         </div>
@@ -94,28 +94,28 @@ export default function Statistiques() {
       {/* Charts */}
       <div className="grid grid-cols-2 gap-6 mb-8">
         {/* Funnel bar chart */}
-        <div className="bg-white rounded-lg border p-4">
+        <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] p-4">
           <h2 className="font-semibold mb-4">Répartition par statut</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={funnelData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} tick={{ fontSize: 10 }} />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="count" fill="#3b82f6" name="Prospects" />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--chatgpt-border)" />
+              <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} tick={{ fontSize: 10, fill: 'var(--chatgpt-muted)' }} />
+              <YAxis tick={{ fill: 'var(--chatgpt-muted)' }} />
+              <Tooltip contentStyle={{ backgroundColor: 'var(--chatgpt-surface-elevated)', borderColor: 'var(--chatgpt-border)', color: 'var(--chatgpt-text)' }} />
+              <Bar dataKey="count" fill="var(--chatgpt-accent)" name="Prospects" />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         {/* Pie chart */}
-        <div className="bg-white rounded-lg border p-4">
+        <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] p-4">
           <h2 className="font-semibold mb-4">Distribution</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie data={pieData} dataKey="count" nameKey="name" cx="50%" cy="50%" outerRadius={100} label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}>
                 {pieData.map((d, i) => <Cell key={i} fill={d.fill} />)}
               </Pie>
-              <Tooltip />
+              <Tooltip contentStyle={{ backgroundColor: 'var(--chatgpt-surface-elevated)', borderColor: 'var(--chatgpt-border)', color: 'var(--chatgpt-text)' }} />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -123,14 +123,14 @@ export default function Statistiques() {
 
       {/* Conversion rates */}
       {conversionData.length > 0 && (
-        <div className="bg-white rounded-lg border p-4 mb-8">
+        <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] p-4 mb-8">
           <h2 className="font-semibold mb-4">Taux de conversion entre étapes</h2>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={conversionData} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" unit="%" />
-              <YAxis dataKey="name" type="category" width={250} tick={{ fontSize: 11 }} />
-              <Tooltip formatter={(v: any) => `${v}%`} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--chatgpt-border)" />
+              <XAxis type="number" unit="%" tick={{ fill: 'var(--chatgpt-muted)' }} />
+              <YAxis dataKey="name" type="category" width={250} tick={{ fontSize: 11, fill: 'var(--chatgpt-muted)' }} />
+              <Tooltip formatter={(v: any) => `${v}%`} contentStyle={{ backgroundColor: 'var(--chatgpt-surface-elevated)', borderColor: 'var(--chatgpt-border)', color: 'var(--chatgpt-text)' }} />
               <Bar dataKey="taux" fill="#8b5cf6" name="Taux (%)" />
             </BarChart>
           </ResponsiveContainer>
@@ -139,15 +139,15 @@ export default function Statistiques() {
 
       {/* Timeline */}
       {timelineData.length > 0 && (
-        <div className="bg-white rounded-lg border p-4 mb-8">
+        <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] p-4 mb-8">
           <h2 className="font-semibold mb-4">Evolution hebdomadaire</h2>
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={timelineData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="week" tick={{ fontSize: 11 }} />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="total" stroke="#3b82f6" strokeWidth={2} name="Nouveaux prospects" />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--chatgpt-border)" />
+              <XAxis dataKey="week" tick={{ fontSize: 11, fill: 'var(--chatgpt-muted)' }} />
+              <YAxis tick={{ fill: 'var(--chatgpt-muted)' }} />
+              <Tooltip contentStyle={{ backgroundColor: 'var(--chatgpt-surface-elevated)', borderColor: 'var(--chatgpt-border)', color: 'var(--chatgpt-text)' }} />
+              <Line type="monotone" dataKey="total" stroke="var(--chatgpt-accent)" strokeWidth={2} name="Nouveaux prospects" />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -155,10 +155,10 @@ export default function Statistiques() {
 
       {/* Performance by avatar */}
       {avatarData.length > 0 && (
-        <div className="bg-white rounded-lg border p-4 mb-8">
+        <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] p-4 mb-8">
           <h2 className="font-semibold mb-4">Performance par avatar</h2>
           <table className="w-full text-sm">
-            <thead><tr className="border-b">
+            <thead><tr className="border-b border-[var(--chatgpt-border)]">
               <th className="text-left py-2">Avatar</th>
               <th className="text-right py-2">Total</th>
               <th className="text-right py-2">Gagnés</th>
@@ -166,10 +166,10 @@ export default function Statistiques() {
             </tr></thead>
             <tbody>
               {avatarData.map(a => (
-                <tr key={a.nom} className="border-b">
+                <tr key={a.nom} className="border-b border-[var(--chatgpt-border)]">
                   <td className="py-2 font-medium">{a.nom}</td>
                   <td className="py-2 text-right">{a.total}</td>
-                  <td className="py-2 text-right text-green-600">{a.gagnes}</td>
+                  <td className="py-2 text-right text-emerald-300">{a.gagnes}</td>
                   <td className="py-2 text-right font-semibold">{a.taux}%</td>
                 </tr>
               ))}
@@ -180,14 +180,14 @@ export default function Statistiques() {
 
       {/* Avg time in status */}
       {avgTimeInStatus.length > 0 && (
-        <div className="bg-white rounded-lg border p-4">
+        <div className="bg-[var(--chatgpt-surface)] rounded-lg border border-[var(--chatgpt-border)] p-4">
           <h2 className="font-semibold mb-4">Temps moyen par étape (jours)</h2>
           <div className="space-y-2">
             {avgTimeInStatus.map((s: any) => (
               <div key={s.from_status} className="flex items-center gap-3 text-sm">
-                <span className="w-48 text-gray-600">{STATUT_LABELS[s.from_status] || s.from_status}</span>
-                <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
-                  <div className="bg-blue-500 h-full rounded-full" style={{ width: `${Math.min(100, (s.avg_days / 30) * 100)}%` }} />
+                <span className="w-48 text-[var(--chatgpt-muted)]">{STATUT_LABELS[s.from_status] || s.from_status}</span>
+                <div className="flex-1 bg-[var(--chatgpt-surface-elevated)] rounded-full h-4 overflow-hidden border border-[var(--chatgpt-border)]">
+                  <div className="bg-[var(--chatgpt-accent)] h-full rounded-full" style={{ width: `${Math.min(100, (s.avg_days / 30) * 100)}%` }} />
                 </div>
                 <span className="font-medium w-16 text-right">{Math.round(s.avg_days * 10) / 10}j</span>
               </div>

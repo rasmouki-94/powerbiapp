@@ -17,13 +17,13 @@ function ProspectCard({ prospect }: { prospect: Prospect }) {
   const navigate = useNavigate();
   return (
     <div
-      className="bg-white rounded p-2 shadow-sm border cursor-pointer hover:shadow-md transition-shadow text-xs"
+      className="bg-[var(--chatgpt-surface)] rounded p-2 shadow-sm border border-[var(--chatgpt-border)] cursor-pointer hover:shadow-md transition-shadow text-xs"
       onClick={() => navigate(`/prospects/${prospect.id}`)}
       draggable={false}
     >
       <div className="font-medium truncate">{prospect.prenom} {prospect.nom}</div>
-      <div className="text-gray-500 truncate">{prospect.poste}</div>
-      <div className="text-gray-400 truncate">{prospect.entreprise}</div>
+      <div className="text-[var(--chatgpt-muted)] truncate">{prospect.poste}</div>
+      <div className="text-[var(--chatgpt-subtle)] truncate">{prospect.entreprise}</div>
     </div>
   );
 }
@@ -31,16 +31,16 @@ function ProspectCard({ prospect }: { prospect: Prospect }) {
 function KanbanColumn({ statut, prospects, onDrop }: { statut: string; prospects: Prospect[]; onDrop: (id: number, statut: string) => void }) {
   return (
     <div
-      className="flex-shrink-0 w-56 bg-gray-100 rounded-lg flex flex-col"
+      className="flex-shrink-0 w-56 bg-[var(--chatgpt-surface-elevated)] rounded-lg flex flex-col border border-[var(--chatgpt-border)]"
       onDragOver={e => e.preventDefault()}
       onDrop={e => {
         const id = Number(e.dataTransfer.getData('prospectId'));
         if (id) onDrop(id, statut);
       }}
     >
-      <div className="p-2 border-b bg-gray-200 rounded-t-lg">
+      <div className="p-2 border-b border-[var(--chatgpt-border)] bg-[var(--chatgpt-bg)] rounded-t-lg">
         <div className="text-xs font-semibold truncate">{STATUT_LABELS[statut]}</div>
-        <div className="text-xs text-gray-500">{prospects.length}</div>
+        <div className="text-xs text-[var(--chatgpt-muted)]">{prospects.length}</div>
       </div>
       <div className="flex-1 p-2 space-y-2 overflow-y-auto max-h-[calc(100vh-12rem)]">
         {prospects.map(p => (
@@ -80,7 +80,7 @@ export default function Dashboard() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-1">Pipeline de prospection</h1>
-      <p className="text-gray-500 mb-4">{total} prospect{total > 1 ? 's' : ''} au total</p>
+      <p className="text-[var(--chatgpt-muted)] mb-4">{total} prospect{total > 1 ? 's' : ''} au total</p>
 
       {/* Summary counters */}
       <div className="flex gap-2 mb-4 flex-wrap">
