@@ -67,7 +67,7 @@ export default function Prospects() {
     api.getProspects().then(setProspects);
     api.getAvatars().then(setAvatars);
   };
-  useEffect(load, []);
+  useEffect(() => { load(); }, []);
 
   const handleCreate = async (data: any) => {
     await api.createProspect(data);

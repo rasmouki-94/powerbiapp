@@ -43,8 +43,8 @@ export default function Templates() {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
-  const load = () => api.getTemplates().then(setTemplates);
-  useEffect(load, []);
+  const load = () => { api.getTemplates().then(setTemplates); };
+  useEffect(() => { load(); }, []);
 
   const handleCreate = async (data: any) => { await api.createTemplate(data); setShowForm(false); load(); };
   const handleUpdate = async (data: any) => { if (editingId) await api.updateTemplate(editingId, data); setEditingId(null); load(); };

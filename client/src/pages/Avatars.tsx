@@ -22,7 +22,7 @@ function AvatarForm({ initial, onSave, onCancel }: {
   const submit = () => {
     onSave({
       ...form,
-      douleurs: form.douleurs.split('\n').map(d => d.trim()).filter(Boolean),
+      douleurs: form.douleurs.split('\n').map((d: string) => d.trim()).filter(Boolean),
     });
   };
 
@@ -51,8 +51,8 @@ export default function Avatars() {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
-  const load = () => api.getAvatars().then(setAvatars);
-  useEffect(load, []);
+  const load = () => { api.getAvatars().then(setAvatars); };
+  useEffect(() => { load(); }, []);
 
   const handleCreate = async (data: any) => {
     await api.createAvatar(data);

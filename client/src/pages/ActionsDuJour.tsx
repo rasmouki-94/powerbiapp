@@ -97,7 +97,7 @@ export default function ActionsDuJour() {
     api.getTemplates().then(setTemplates);
   };
 
-  useEffect(load, []);
+  useEffect(() => { load(); }, []);
 
   if (!data) return <div className="p-8 text-gray-500">Chargement...</div>;
 
