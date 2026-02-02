@@ -1,19 +1,108 @@
-import Database from 'better-sqlite3';
+import initSqlJs, { Database as SqlJsDatabase } from 'sql.js';
 import path from 'path';
-
-const DB_PATH = path.join(__dirname, '..', 'data', 'prospecting.db');
-
-// Ensure data directory exists
 import fs from 'fs';
+
+// Find server root: walk up from this file until we find package.json with "prospecting-server"
+function findServerRoot(): string {
+  let dir = __dirname;
+  for (let i = 0; i < 10; i++) {
+    const pkgPath = path.join(dir, 'package.json');
+    if (fs.existsSync(pkgPath)) {
+      try {
+        const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+        if (pkg.name === 'prospecting-server') return dir;
+      } catch {}
+    }
+    const parent = path.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  // Fallback: assume cwd is project root
+  return path.join(process.cwd(), 'server');
+}
+
+const SERVER_ROOT = findServerRoot();
+const DB_PATH = path.join(SERVER_ROOT, 'data', 'prospecting.db');
 fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 
-const db = new Database(DB_PATH);
+// Wrapper that mimics better-sqlite3 API on top of sql.js
+// so that all route files work without changes.
+class DatabaseWrapper {
+  private sqldb!: SqlJsDatabase;
+  async init() {
+    const SQL = await initSqlJs();
+    if (fs.existsSync(DB_PATH)) {
+      const buffer = fs.readFileSync(DB_PATH);
+      this.sqldb = new SQL.Database(buffer);
+    } else {
+      this.sqldb = new SQL.Database();
+    }
+    this.sqldb.run('PRAGMA foreign_keys = ON');
+  }
 
-// Enable WAL mode for better performance
-db.pragma('journal_mode = WAL');
-db.pragma('foreign_keys = ON');
+  private save() {
+    const data = this.sqldb.export();
+    fs.writeFileSync(DB_PATH, Buffer.from(data));
+  }
 
-export function initDatabase() {
+  exec(sql: string) {
+    this.sqldb.run(sql);
+    this.save();
+  }
+
+  prepare(sql: string) {
+    const self = this;
+    return {
+      all(...params: any[]): any[] {
+        const stmt = self.sqldb.prepare(sql);
+        if (params.length) stmt.bind(params);
+        const results: any[] = [];
+        while (stmt.step()) {
+          results.push(stmt.getAsObject());
+        }
+        stmt.free();
+        return results;
+      },
+      get(...params: any[]): any {
+        const stmt = self.sqldb.prepare(sql);
+        if (params.length) stmt.bind(params);
+        let row: any = undefined;
+        if (stmt.step()) {
+          row = stmt.getAsObject();
+        }
+        stmt.free();
+        return row;
+      },
+      run(...params: any[]): { lastInsertRowid: number; changes: number } {
+        self.sqldb.run(sql, params);
+        const lastId = self.sqldb.exec('SELECT last_insert_rowid() as id')[0]?.values[0]?.[0] as number || 0;
+        const changes = self.sqldb.getRowsModified();
+        self.save();
+        return { lastInsertRowid: lastId, changes };
+      },
+    };
+  }
+
+  transaction<T>(fn: () => T): () => T {
+    return () => {
+      this.sqldb.run('BEGIN');
+      try {
+        const result = fn();
+        this.sqldb.run('COMMIT');
+        this.save();
+        return result;
+      } catch (e) {
+        this.sqldb.run('ROLLBACK');
+        throw e;
+      }
+    };
+  }
+}
+
+const db = new DatabaseWrapper();
+
+export async function initDatabase() {
+  await db.init();
   db.exec(`
     CREATE TABLE IF NOT EXISTS avatars (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
