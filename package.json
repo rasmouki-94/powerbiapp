@@ -1,0 +1,15 @@
+{
+  "name": "prospecting-pipeline",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npx tsx watch src/index.ts",
+    "dev:client": "cd client && npx vite",
+    "build": "cd client && npx vite build",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
