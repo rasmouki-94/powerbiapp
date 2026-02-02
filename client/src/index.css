@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --chatgpt-bg: #343541;
+  --chatgpt-sidebar: #202123;
+  --chatgpt-surface: #40414f;
+  --chatgpt-surface-elevated: #2a2b32;
+  --chatgpt-border: #565869;
+  --chatgpt-border-strong: #2f3139;
+  --chatgpt-text: #ececf1;
+  --chatgpt-muted: #c5c5d2;
+  --chatgpt-subtle: #9ca3af;
+  --chatgpt-accent: #10a37f;
+  --chatgpt-accent-hover: #0e8f6f;
+}
+
+body {
+  background-color: var(--chatgpt-bg);
+  color: var(--chatgpt-text);
+}
