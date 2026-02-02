@@ -46,7 +46,8 @@ class DatabaseWrapper {
   }
 
   exec(sql: string) {
-    this.sqldb.run(sql);
+    // Use sqldb.exec() (not .run()) to support multiple statements
+    this.sqldb.exec(sql);
     this.save();
   }
 
